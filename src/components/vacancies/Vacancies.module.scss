@@ -1,0 +1,12 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.vacanciesContainer {
+  width: 100%;
+  padding: 2.5rem 0;
+
+  .vacanciesWrapper {
+    @include flex-start-start;
+    gap: 1.75rem;
+  }
+}

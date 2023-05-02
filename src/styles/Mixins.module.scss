@@ -1,0 +1,55 @@
+@import './Variables.module';
+
+@mixin flex-start-center {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+@mixin flex-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+@mixin flex-start-start {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-wrap: nowrap;
+}
+
+@mixin flex-sb-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+@mixin input {
+  width: 100%;
+  padding: .5rem .75rem;
+  border: $primary-border;
+  border-radius: $second-border-radius;
+  font-size: $second-font-size;
+  color: $primary-black;
+
+  &:focus {
+    border-color: $primary-blue;
+  }
+
+  &::placeholder {
+    color: $second-gray;
+  }
+}
+
+@mixin button {
+  @include flex-center-center;
+  font-size: $second-font-size;
+  color: $primary-white;
+  background: $primary-blue;
+  padding: .25rem 1.125rem;
+  border-radius: $second-border-radius;
+}

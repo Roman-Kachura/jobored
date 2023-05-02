@@ -1,0 +1,15 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.header {
+  height: 84px;
+  background: $primary-white;
+
+  .headerWrapper {
+    height: 100%;
+    width: 100%;
+    @include flex-start-center;
+    gap: 25%;
+  }
+}
+

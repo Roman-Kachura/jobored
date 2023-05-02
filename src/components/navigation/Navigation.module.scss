@@ -1,0 +1,30 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.nav {
+  @include flex-start-center;
+  height: 100%;
+}
+
+.linkItem {
+  @include flex-center-center;
+  height: 100%;
+  padding: 1rem 1.875rem;
+  color: $primary-black;
+  line-height: $primary-line-height;
+  font-size: $primary-font-size;
+  font-weight: $text-font-weight;
+
+  &:hover {
+    background: $primary-blue;
+    color: $primary-white;
+  }
+
+  &.active {
+    color: $primary-blue;
+
+    &:hover{
+      background: $transparent-background;
+    }
+  }
+}

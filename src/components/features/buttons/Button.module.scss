@@ -1,0 +1,6 @@
+@import '../../../styles/Mixins.module';
+@import '../../../styles/Variables.module';
+
+.button {
+  @include button;
+}

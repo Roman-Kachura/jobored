@@ -1,0 +1,66 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.filters {
+  @include flex-start-start;
+  flex-direction: column;
+  background: $primary-white;
+  border: $primary-border;
+  border-radius: $primary-border-radius;
+  padding: 1.125rem;
+  gap: .5rem;
+
+  .filtersTop {
+    width: 100%;
+    @include flex-sb-center;
+    gap: 4.1875rem;
+
+    .clearFilters {
+      @include flex-start-center;
+      font-size: $second-font-size;
+      color: $second-gray;
+      gap: .5rem;
+
+
+      &:hover {
+        color: $primary-blue;
+      }
+    }
+  }
+
+  .filtersOptions {
+    width: 100%;
+    @include flex-start-start;
+    flex-direction: column;
+    gap: 1.125rem;
+
+    .applyBtn {
+      width: 100%;
+      height: 2.5rem;
+    }
+  }
+}
+
+.filtersTitle {
+  font-size: $title-font-size;
+  line-height: $primary-line-height;
+  font-weight: $title-font-weight;
+  color: $primary-black;
+}
+
+.filtersSubtitle {
+  font-size: $primary-font-size;
+  line-height: $primary-line-height;
+  font-weight: $title-font-weight;
+  color: $primary-black;
+}
+
+.optionItem {
+  width: 100%;
+
+  .itemChildren {
+    @include flex-start-start;
+    flex-direction: column;
+    gap: 1.125rem;
+  }
+}
