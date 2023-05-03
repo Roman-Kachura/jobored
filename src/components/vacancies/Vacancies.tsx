@@ -1,45 +1,32 @@
 import style from './Vacancies.module.scss';
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {VacanciesItem} from './VacanciesItem';
+import {useSelector} from 'react-redux';
+import {RootState, useAppDispatch} from '../../store/store';
+import {VacanciesDataResponseType, VacancyRequestType, VacancyResponseType} from '../../api/apiTypes';
+import {getVacanciesThunk} from '../../store/reducers/vacanciesReducer';
 
 export const Vacancies: React.FC = () => {
-    const items = [
-        {
-            profession: 'Менеджер-дизайнер',
-            currency: 'з/п от 70000 rub',
-            workType: 'Полный рабочий день',
-            town: 'Новый Уренгой',
-        },
-        {
-            profession: 'Ведущий графический дизайнер НЕ УДАЛЕННО',
-            currency: 'з/п от 80000 rub',
-            workType: 'Полный рабочий день',
-            town: 'Москва',
-        },
-        {
-            profession: 'Работник декорации, дизайнер (ТЦ Амбар)',
-            currency: 'з/п 29000 rub',
-            workType: 'Сменный график работы',
-            town: 'Самара',
-        },
-        {
-            profession: 'Менеджер-дизайнер',
-            currency: 'з/п 55000 - 95000 rub',
-            workType: 'Полный рабочий день',
-            town: 'Тюмень',
-        },
-    ];
+    const dispatch = useAppDispatch();
+    const vacancies = useSelector<RootState, VacancyResponseType[]>(state => state.vacancies.vacancies);
+    const filtersParams = useSelector<RootState, VacancyRequestType>(state => state.vacancies.params);
+    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
+    const getVacancies = useCallback(() => isAuth && dispatch(getVacanciesThunk(filtersParams)), [dispatch, isAuth, vacancies])
+    useEffect(() => {
+        getVacancies();
+    }, [])
+
     return (
         <div className={style.vacancies}>
             {
-                items.map(
+                vacancies.map(
                     (item, index) =>
                         <VacanciesItem
                             key={index}
                             profession={item.profession}
                             currency={item.currency}
-                            workType={item.workType}
-                            town={item.town}
+                            workType={item.type_of_work.title}
+                            town={item.town.title}
                         />
                 )
             }

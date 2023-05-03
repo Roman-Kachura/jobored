@@ -1,49 +1,69 @@
 import style from './Filters.module.scss';
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {OptionItem} from './OptionItem';
-import {IndustryInput} from '../features/inputs/IndustryInput';
+import {CatalogSelect} from './CatalogSelect';
 import {SalaryInput} from '../features/inputs/SalaryInput';
 import {Button} from '../features/buttons/Button';
+import {RootState, useAppDispatch} from '../../store/store';
+import {
+    clearParamsThunk,
+    getCataloguesThunk,
+    getVacanciesThunk,
+    showVacanciesCountOnPage
+} from '../../store/reducers/vacanciesReducer';
+import {useSelector} from 'react-redux';
+import {VacancyRequestType} from '../../api/apiTypes';
+import {FiltersComponent} from './FiltersComponent';
 
-export const Filters: React.FC = () => {
-    const [industry, setIndustry] = useState('');
-    const changeIndustry = (value: string) => setIndustry(value);
-    const [salaryFrom, setSalaryFrom] = useState(0);
-    const changeSalaryFrom = (value: number) => value >= 0 && setSalaryFrom(value);
-    const [salaryTo, setSalaryTo] = useState(0);
-    const changeSalaryTo = (value: number) => value >= 0 && setSalaryTo(value);
-    const clickHandler = () => {
-        alert('click')
-    }
+export const Filters = React.memo(() => {
+    const dispatch = useAppDispatch();
+    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
+    const filtersParams = useSelector<RootState, VacancyRequestType>(state => state.vacancies.params);
+    const [catalog, setCatalog] = useState(filtersParams.catalogues);
+    const [salaryFrom, setSalaryFrom] = useState(filtersParams.payment_from);
+    const [salaryTo, setSalaryTo] = useState(filtersParams.payment_to);
+    const currentPage = useSelector<RootState, number>(state => state.vacancies.params.page);
+
+    const changeCatalog = (value: number) => {
+        setCatalog(value)
+    };
+    const changeSalaryFrom = useCallback((value: number) => value >= 0 && setSalaryFrom(value), [salaryFrom]);
+    const changeSalaryTo = useCallback((value: number) => value >= 0 && setSalaryTo(value), [salaryTo]);
+    const applyFilters = useCallback(() => {
+        const param: VacancyRequestType = {
+            ...filtersParams,
+            catalogues: catalog,
+            payment_from: salaryFrom,
+            payment_to: salaryTo,
+            page: 1,
+        }
+        getVacancies(param);
+    }, [dispatch, catalog, salaryFrom, salaryTo]);
+    const getVacancies = useCallback((param: VacancyRequestType) => dispatch(getVacanciesThunk(param)), [dispatch, catalog, salaryFrom, salaryTo]);
+    const getCatalogues = useCallback(() => isAuth && dispatch(getCataloguesThunk()), [dispatch, isAuth]);
+    const clearFilters = useCallback(() => {
+        setCatalog(0);
+        setSalaryFrom(0);
+        setSalaryTo(0);
+        dispatch(clearParamsThunk());
+    }, [dispatch]);
+
+    useEffect(() => {
+        getCatalogues();
+        return () => {
+            clearFilters();
+        }
+    }, [dispatch]);
     return (
-        <aside className={style.filters}>
-            <div className={style.filtersTop}>
-                <h3 className={style.filtersTitle}>Фильтры</h3>
-                <button className={style.clearFilters}>
-                    <span>Сбросить все</span>
-                    <span>&#10005;</span>
-                </button>
-            </div>
-            <div className={style.filtersOptions}>
-                <OptionItem title={'Отрасль'}>
-                    <IndustryInput value={industry} callBack={changeIndustry}/>
-                </OptionItem>
-                <OptionItem title={'Оклад'}>
-                    <SalaryInput
-                        step={1000}
-                        callBack={changeSalaryFrom}
-                        value={salaryFrom}
-                        placeholder="От"
-                    />
-                    <SalaryInput
-                        step={1000}
-                        callBack={changeSalaryTo}
-                        value={salaryTo}
-                        placeholder="До"
-                    />
-                </OptionItem>
-                <Button callBack={clickHandler} text="Применить" className={style.applyBtn}/>
-            </div>
-        </aside>
+        <FiltersComponent
+            catalog={catalog}
+            salaryFrom={salaryFrom}
+            salaryTo={salaryTo}
+            changeCatalog={changeCatalog}
+            changeSalaryFrom={changeSalaryFrom}
+            changeSalaryTo={changeSalaryTo}
+            applyFilters={applyFilters}
+            clearFilters={clearFilters}
+        />
     )
-}
+})

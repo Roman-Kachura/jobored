@@ -4,8 +4,16 @@ import {Empty} from '../empty/Empty';
 import {Pagination} from '../features/pagination/Pagination';
 import {Container} from '../features/container/Container';
 import {VacanciesItem} from '../vacancies/VacanciesItem';
+import {Loader} from '../features/loader/Loader';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/store';
+import {AppStatusType} from '../../store/reducers/appReducer';
+import {NotAuthorized} from '../empty/NotAuthorized';
 
 export const Favorites: React.FC = () => {
+    const appStatus = useSelector<RootState, AppStatusType>(state => state.app.status);
+    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
+
     const items = [
         {
             profession: 'Менеджер-дизайнер',
@@ -32,7 +40,8 @@ export const Favorites: React.FC = () => {
             town: 'Тюмень',
         },
     ];
-
+    if (!isAuth) return <NotAuthorized/>
+    if (appStatus === 'load') return <Loader/>
     if (items.length === 0) return <Empty/>
     return (
         <div className={style.favoritesContainer}>

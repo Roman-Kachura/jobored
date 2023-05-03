@@ -5,20 +5,6 @@
   position: relative;
 }
 
-.industryInput {
-  @include input;
-}
-
-.industryImage {
-  width: .875rem;
-  height: .375rem;
-  position: absolute;
-  right: .875rem;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-}
-
 .salaryInput {
   @include input;
 
@@ -80,3 +66,8 @@
   bottom: 0;
   margin: auto 0;
 }
+
+
+
+
+

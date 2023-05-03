@@ -31,3 +31,11 @@
     }
   }
 }
+
+.notAuthorized {
+  @include flex-center-center(column, 2rem, nowrap);
+  padding: 15rem;
+  font-size: $second-title-font-size;
+  font-weight: $title-font-weight;
+  font-family: "Open Sans", sans-serif;
+}
