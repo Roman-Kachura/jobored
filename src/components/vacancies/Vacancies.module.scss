@@ -4,9 +4,100 @@
 .vacanciesContainer {
   width: 100%;
   padding: 2.5rem 0;
+}
 
-  .vacanciesWrapper {
-    @include flex-start-start;
-    gap: 1.75rem;
+.vacanciesWrapper {
+  @include flex-start-start(row, 1.75rem, nowrap);
+}
+
+.vacanciesContent {
+  width: 773px;
+  @include flex-start-start(column, 1rem, nowrap);
+}
+
+.vacancies {
+  width: 100%;
+  @include flex-start-start(column, 1.75rem, nowrap);
+}
+
+.vacanciesItem {
+  @include flex-start-start(column, .875rem, nowrap);
+  width: 100%;
+  padding: 1.5rem;
+  background: $primary-white;
+  border: $primary-border;
+  border-radius: $primary-border-radius;
+  position: relative;
+
+  .profession {
+    font-size: $title-font-size;
+    font-weight: 600;
+    color: $primary-blue;
+  }
+
+  .conditions {
+    @include flex-start-center(row, .875rem, nowrap);
+    font-size: $primary-font-size;
+    color: $primary-black;
+
+    .payment {
+      font-weight: 600;
+    }
+
+    .circle {
+      width: .25rem;
+      height: .25rem;
+      background: $third-gray;
+      border-radius: 50%;
+    }
+
+    .workType {
+      font-weight: $text-font-weight;
+    }
+  }
+
+  .town {
+    @include flex-start-start(row, .5rem, nowrap);
+    font-size: $primary-font-size;
+
+    .townImage {
+      width: $title-font-size;
+      height: $title-font-size;
+    }
+  }
+
+  .starBtn {
+    @include flex-center-center(row,0,nowrap);
+    width: 1.5rem;
+    height: 1.5rem;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+
+    &:active {
+      transform: scale(.9);
+    }
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &.card {
+    .profession {
+      font-size: $second-title-font-size;
+      font-weight: $title-font-weight;
+      color: $primary-black;
+    }
+
+    .conditions {
+      font-size: $title-font-size;
+
+      .circle {
+        width: .375rem;
+        height: .375rem;
+      }
+    }
   }
 }

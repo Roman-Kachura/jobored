@@ -4,3 +4,29 @@
 .button {
   @include button;
 }
+
+.paginationButton {
+  @include flex-center-center('row','0','nowrap');
+  height: 2rem;
+  width: 2rem;
+  border: $primary-border;
+  border-radius: $second-border-radius;
+  background: $primary-white;
+  color: $primary-black;
+  font-size: $primary-font-size;
+
+  &:disabled {
+    opacity: .7;
+  }
+
+  &.active {
+    border: none;
+    background: $primary-blue;
+    color: $primary-white;
+  }
+
+  .arrowImage {
+    width: 1rem;
+    height: 1rem;
+  }
+}

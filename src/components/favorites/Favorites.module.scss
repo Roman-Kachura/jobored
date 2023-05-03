@@ -1,0 +1,17 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.favoritesContainer {
+  padding: 2.5rem 0;
+
+  .favoritesWrapper {
+    width: 773px;
+    margin: 0 auto;
+    @include flex-start-start(column, 6.5rem, nowrap);
+
+    .favorites {
+      width: 100%;
+      @include flex-start-start(column, 1rem, nowrap);
+    }
+  }
+}

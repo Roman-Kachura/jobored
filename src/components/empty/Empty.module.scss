@@ -1,0 +1,33 @@
+@import '../../styles/Variables.module';
+@import '../../styles/Mixins.module';
+
+.empty {
+  padding: 7.5rem 0;
+
+  .emptyWrapper {
+    width: 100%;
+    @include flex-center-center(column, 2rem, nowrap);
+
+    .emptyImage {
+      display: block;
+      width: 15rem;
+      height: 14.375rem;
+    }
+
+    .emptyTitle {
+      font-size: 1.5rem;
+      font-weight: $title-font-weight;
+      color: $second-black;
+    }
+
+    .emptyButton {
+      @include flex-center-center(row, 0, nowrap);
+      padding: .625rem 1.5rem;
+      background: $third-blue;
+      font-family: 'Open Sans', sans-serif;
+      font-size: .875rem;
+      font-weight: 600;
+      color: $second-blue;
+    }
+  }
+}

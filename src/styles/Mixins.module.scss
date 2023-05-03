@@ -1,31 +1,39 @@
 @import './Variables.module';
 
-@mixin flex-start-center {
+@mixin flex-start-center($direction,$gap,$wrap) {
   display: flex;
   justify-content: start;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
 }
 
-@mixin flex-center-center {
+@mixin flex-center-center($direction,$gap,$wrap) {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
 }
 
-@mixin flex-start-start {
+@mixin flex-start-start($direction,$gap,$wrap) {
   display: flex;
   justify-content: start;
   align-items: start;
-  flex-wrap: nowrap;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
 }
 
-@mixin flex-sb-center {
+@mixin flex-sb-center($direction,$gap,$wrap) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
 }
 
 @mixin input {
@@ -46,7 +54,7 @@
 }
 
 @mixin button {
-  @include flex-center-center;
+  @include flex-center-center('row',0,'nowrap');
   font-size: $second-font-size;
   color: $primary-white;
   background: $primary-blue;

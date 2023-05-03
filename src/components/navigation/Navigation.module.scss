@@ -2,12 +2,12 @@
 @import '../../styles/Mixins.module';
 
 .nav {
-  @include flex-start-center;
+  @include flex-start-center(row,0,nowrap);
   height: 100%;
 }
 
 .linkItem {
-  @include flex-center-center;
+  @include flex-center-center(row,0,nowrap);
   height: 100%;
   padding: 1rem 1.875rem;
   color: $primary-black;

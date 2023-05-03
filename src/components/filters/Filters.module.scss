@@ -2,24 +2,20 @@
 @import '../../styles/Mixins.module';
 
 .filters {
-  @include flex-start-start;
-  flex-direction: column;
+  @include flex-start-start(column,2rem,nowrap);
   background: $primary-white;
   border: $primary-border;
   border-radius: $primary-border-radius;
   padding: 1.125rem;
-  gap: .5rem;
 
   .filtersTop {
     width: 100%;
-    @include flex-sb-center;
-    gap: 4.1875rem;
+    @include flex-sb-center(row,4.1875rem,nowrap);
 
     .clearFilters {
-      @include flex-start-center;
+      @include flex-start-center(row,.5rem,nowrap);
       font-size: $second-font-size;
       color: $second-gray;
-      gap: .5rem;
 
 
       &:hover {
@@ -30,9 +26,7 @@
 
   .filtersOptions {
     width: 100%;
-    @include flex-start-start;
-    flex-direction: column;
-    gap: 1.125rem;
+    @include flex-start-start(column,1.125rem,nowrap);
 
     .applyBtn {
       width: 100%;
@@ -57,10 +51,10 @@
 
 .optionItem {
   width: 100%;
+  @include flex-start-start(column,.5rem,nowrap);
 
   .itemChildren {
-    @include flex-start-start;
-    flex-direction: column;
-    gap: 1.125rem;
+    @include flex-start-start(column,1.125rem,nowrap);
+    width: 100%;
   }
 }

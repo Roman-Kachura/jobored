@@ -1,0 +1,7 @@
+@import '../../../styles/Mixins.module';
+@import '../../../styles/Variables.module';
+
+.pagination {
+  width: 100%;
+  @include flex-center-center(row, .5rem, nowrap);
+}
