@@ -3,19 +3,18 @@ import {api} from '../../api/api';
 
 const initialState: AppInitialState = {
     isAuth: false,
-    status: 'stop'
+    load: false
 }
 
 export const authThunk = createAsyncThunk('auth-thunk', async (arg, thunkAPI) => {
-    // console.log('auth')
-    // thunkAPI.dispatch(setStatusAction({status: 'load'}));
+    thunkAPI.dispatch(setStatusAction({load: true}));
     try {
         const response = await api.auth();
         thunkAPI.dispatch(authAction({isAuth: true}));
-        // thunkAPI.dispatch(setStatusAction({status: 'stop'}));
     } catch (e) {
         thunkAPI.dispatch(authAction({isAuth: false}));
-        // thunkAPI.dispatch(setStatusAction({status: 'stop'}));
+    } finally {
+        thunkAPI.dispatch(setStatusAction({load: false}));
     }
 });
 
@@ -27,19 +26,18 @@ const appSlice = createSlice({
             state.isAuth = action.payload.isAuth;
         },
         setStatusAction(state, action: StatusActionType) {
-            state.status = action.payload.status;
+            state.load = action.payload.load;
         }
     }
 });
 
 interface AppInitialState {
     isAuth: boolean
-    status: AppStatusType
+    load: boolean
 }
 
 type AuthActionType = PayloadAction<{ isAuth: boolean }>;
-type StatusActionType = PayloadAction<{ status: AppStatusType }>;
-export type AppStatusType = 'load' | 'stop';
+type StatusActionType = PayloadAction<{ load: boolean }>;
 
 export const {authAction, setStatusAction} = appSlice.actions;
 export default appSlice.reducer;

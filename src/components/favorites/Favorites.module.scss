@@ -5,13 +5,21 @@
   padding: 2.5rem 0;
 
   .favoritesWrapper {
-    width: 773px;
+    width: 100%;
     margin: 0 auto;
     @include flex-start-start(column, 6.5rem, nowrap);
 
     .favorites {
       width: 100%;
       @include flex-start-start(column, 1rem, nowrap);
+    }
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .favoritesContainer{
+    .favoritesWrapper{
+      @include flex-start-start(column, 3rem, nowrap);
     }
   }
 }

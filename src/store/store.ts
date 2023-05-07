@@ -3,10 +3,12 @@ import {useDispatch} from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import appReducer from './reducers/appReducer';
 import vacanciesReducer from './reducers/vacanciesReducer';
+import favoritesReducer from './reducers/favoritesReducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
-    vacancies:vacanciesReducer
+    vacancies: vacanciesReducer,
+    favorites: favoritesReducer
 });
 
 const loadedState = () => {
@@ -30,5 +32,6 @@ store.subscribe(() => {
     localStorage.setItem('app', state);
 });
 export type RootState = ReturnType<typeof rootReducer>;
+export type StateType = typeof store.getState;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch; // Export a hook that can be reused to resolve types

@@ -32,10 +32,19 @@
   }
 }
 
-.notAuthorized {
-  @include flex-center-center(column, 2rem, nowrap);
-  padding: 15rem;
-  font-size: $second-title-font-size;
-  font-weight: $title-font-weight;
-  font-family: "Open Sans", sans-serif;
+@media screen and (max-width: 481px) {
+  .empty{
+    padding: 4rem 0;
+
+    .emptyWrapper{
+      .emptyImage{
+        width: 10rem;
+        height: 9rem;
+      }
+
+      .emptyTitle{
+        font-size: 1rem;
+      }
+    }
+  }
 }

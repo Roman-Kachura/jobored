@@ -2,12 +2,12 @@
 @import '../../styles/Mixins.module';
 
 .nav {
-  @include flex-start-center(row,0,nowrap);
+  @include flex-start-center(row, 0, nowrap);
   height: 100%;
 }
 
 .linkItem {
-  @include flex-center-center(row,0,nowrap);
+  @include flex-center-center(row, 0, nowrap);
   height: 100%;
   padding: 1rem 1.875rem;
   color: $primary-black;
@@ -23,8 +23,57 @@
   &.active {
     color: $primary-blue;
 
-    &:hover{
+    &:hover {
       background: $transparent-background;
+    }
+  }
+}
+
+.mobileNav {
+  display: none;
+  height: 100%;
+
+  .linkItem {
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .nav {
+    display: none;
+  }
+
+  .mobileNav {
+    width: 100%;
+    height: auto;
+    @include flex-start-start(column, 0, nowrap);
+    background: $third-blue;
+    z-index: 10000;
+    padding: 1rem 2rem;
+
+    .linkItem{
+      padding: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 681px) {
+  .mobileNav {
+    padding: 1rem;
+
+    .linkItem{
+      padding: 1rem;
+    }
+  }
+}
+
+
+@media screen and (max-width: 481px) {
+  .mobileNav {
+    padding: .5rem;
+
+    .linkItem{
+      padding: 1rem;
     }
   }
 }

@@ -11,7 +11,7 @@
 }
 
 .vacanciesContent {
-  width: 773px;
+  width: 100%;
   @include flex-start-start(column, 1rem, nowrap);
 }
 
@@ -67,7 +67,7 @@
   }
 
   .starBtn {
-    @include flex-center-center(row,0,nowrap);
+    @include flex-center-center(row, 0, nowrap);
     width: 1.5rem;
     height: 1.5rem;
     position: absolute;
@@ -98,6 +98,47 @@
         width: .375rem;
         height: .375rem;
       }
+    }
+  }
+}
+
+.vacancyCard {
+  padding: 2.5rem 0;
+
+  .cardWrapper {
+    @include flex-start-start(column, 1.25rem, nowrap);
+
+    .cardDescription {
+      padding: 1.5rem;
+      background: $primary-white;
+      border-radius: $primary-border-radius;
+
+      p{
+        font-size: $title-font-size;
+        font-weight: $title-font-weight;
+        color: $primary-black;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .vacanciesWrapper{
+    @include flex-start-start(column, 1.75rem, nowrap);
+  }
+}
+
+@media screen and (max-width: 681px) {
+  .vacanciesItem{
+    .conditions{
+      @include flex-start-start(column, .5rem, nowrap);
+
+      .circle{
+        display: none;
+      }
+    }
+    .starBtn{
+      position: static;
     }
   }
 }

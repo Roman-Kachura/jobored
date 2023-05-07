@@ -2,8 +2,9 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {CatalogResponseType, VacancyRequestType, VacancyResponseType} from '../../api/apiTypes';
 import {api} from '../../api/api';
 import {setStatusAction} from './appReducer';
+import {getPagesCount} from '../../utils/utils';
 
-export const getPagesCount = (totalItemsCount: number, showCount: number) => Math.ceil(totalItemsCount / showCount);
+
 export const showVacanciesCountOnPage = 4;
 const initialState: VacanciesStateType = {
     vacancies: [],
@@ -17,26 +18,35 @@ const initialState: VacanciesStateType = {
         published: 1
     },
     catalogues: [],
-    pagesCount: 1
+    pagesCount: 1,
+    card: {} as VacancyResponseType
 }
 
-export const getVacanciesThunk = createAsyncThunk('get-vacancies-thunk', async (arg: VacancyRequestType, thunkAPI) => {
-
+export const getVacancyByIdThunk = createAsyncThunk('get-vacancy-by-id-thunk', async (arg: { id: string }, thunkAPI) => {
+    thunkAPI.dispatch(setStatusAction({load: true}));
     try {
-        // thunkAPI.dispatch(setStatusAction({status: 'load'}));
+        const response = await api.getVacancyById(arg.id);
+        thunkAPI.dispatch(setCard({card: response.data}));
+    } catch (e) {
+        console.log(e);
+    } finally {
+        thunkAPI.dispatch(setStatusAction({load: false}));
+    }
+});
+export const getVacanciesThunk = createAsyncThunk('get-vacancies-thunk', async (arg: VacancyRequestType, thunkAPI) => {
+    thunkAPI.dispatch(setStatusAction({load: true}));
+    try {
         const response = await api.getVacancies(arg);
-        console.log('response', arg);
         const pagesCount = getPagesCount(response.data.total, showVacanciesCountOnPage);
         thunkAPI.dispatch(setParamsAction({params: arg}));
         thunkAPI.dispatch(setPagesCount({pagesCount}));
         thunkAPI.dispatch(setVacanciesAction({vacancies: response.data.objects}));
     } catch (e) {
         console.log(e);
-    }finally {
-        thunkAPI.dispatch(setStatusAction({status: 'stop'}));
+    } finally {
+        thunkAPI.dispatch(setStatusAction({load: false}));
     }
 });
-
 export const getCataloguesThunk = createAsyncThunk('get-catalogues-thunk', async (arg, thunkAPI) => {
     try {
         const response = await api.getCatalogues();
@@ -57,11 +67,17 @@ export const clearParamsThunk = createAsyncThunk('clear-params-thunk', async (ar
     }
     try {
         thunkAPI.dispatch(setParamsAction({params}));
-        thunkAPI.dispatch(setPagesCount({pagesCount:1}));
-        thunkAPI.dispatch(setVacanciesAction({vacancies: []}));
+        thunkAPI.dispatch(setPagesCount({pagesCount: 1}));
+        thunkAPI.dispatch(getVacanciesThunk(params));
     } catch (e) {
         console.error(e);
     }
+});
+export const clearVacancies = createAsyncThunk('clear-vacancies-thunk', async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setVacanciesAction({vacancies: []}));
+});
+export const clearVacancyCard = createAsyncThunk('clear-card-thunk', async (arg, thunkAPI) => {
+    thunkAPI.dispatch(setCard({card: {} as VacancyResponseType}));
 });
 
 
@@ -78,21 +94,34 @@ const vacanciesSlice = createSlice({
         setCataloguesAction(state, action: SetCataloguesActionType) {
             state.catalogues = action.payload.catalogues;
         },
-        setPagesCount(state, action: PayloadAction<{ pagesCount: number }>) {
+        setPagesCount(state, action: SetPageActionType) {
             state.pagesCount = action.payload.pagesCount;
+        },
+        setCard(state, action: SetCardActionType) {
+            state.card = action.payload.card;
         }
     }
 });
+
+export const {
+    setVacanciesAction,
+    setParamsAction,
+    setCataloguesAction,
+    setPagesCount,
+    setCard
+} = vacanciesSlice.actions;
+export default vacanciesSlice.reducer;
 
 interface VacanciesStateType {
     vacancies: VacancyResponseType[]
     params: VacancyRequestType
     catalogues: CatalogResponseType[]
     pagesCount: number
+    card: VacancyResponseType
 }
 
 type SetCataloguesActionType = PayloadAction<{ catalogues: CatalogResponseType[] }>;
 type SetVacanciesParamsActionType = PayloadAction<{ params: VacancyRequestType }>;
-type SetVacanciesActionType = PayloadAction<{vacancies: VacancyResponseType[]}>;
-export const {setVacanciesAction, setParamsAction, setCataloguesAction, setPagesCount} = vacanciesSlice.actions;
-export default vacanciesSlice.reducer;
+type SetVacanciesActionType = PayloadAction<{ vacancies: VacancyResponseType[] }>;
+type SetCardActionType = PayloadAction<{ card: VacancyResponseType }>;
+type SetPageActionType = PayloadAction<{ pagesCount: number }>;

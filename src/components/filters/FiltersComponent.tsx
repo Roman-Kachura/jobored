@@ -27,15 +27,17 @@ export const FiltersComponent: React.FC<FiltersComponentProps> = (
                         callBack={changeSalaryFrom}
                         value={salaryFrom}
                         placeholder="От"
+                        dataElement='salary-from-input'
                     />
                     <SalaryInput
                         step={1000}
                         callBack={changeSalaryTo}
                         value={salaryTo}
                         placeholder="До"
+                        dataElement='salary-to-input'
                     />
                 </OptionItem>
-                <Button callBack={applyFilters} text="Применить" className={style.applyBtn}/>
+                <Button callBack={applyFilters} text="Применить" className={style.applyBtn} data-elem='search-button'/>
             </div>
         </aside>
     )

@@ -2,13 +2,51 @@
 @import '../../styles/Mixins.module';
 
 .header {
-  height: 84px;
+  height: auto;
+  width: 100%;
   background: $primary-white;
+  position: relative;
 
   .headerWrapper {
-    height: 100%;
+    height: 5.25rem;
     width: 100%;
     @include flex-start-center(row, 25%, nowrap);
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .header {
+    transition: all $primary-transition-time;
+
+    .headerWrapper {
+      height: 4rem;
+      @include flex-sb-center(row, 0, wrap);
+    }
+
+    .mobileNav {
+      position: relative;
+      top: -1000px;
+      height: 0;
+      opacity: 0;
+      z-index: -10000;
+      transition: $primary-transition-time;
+
+      &.open {
+        top: 0;
+        height: auto;
+        opacity: 1;
+        z-index: 10000;
+        transition: $primary-transition-time;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 681px) {
+  .header {
+    .headerWrapper {
+      @include flex-end-center(row, 0, nowrap);
+    }
   }
 }
 

@@ -16,7 +16,7 @@ export const CatalogSelect: React.FC<IndustryInputProps> = ({value, callBack}) =
         openSelect();
     }
     return (
-        <div className={className}>
+        <div className={className} data-elem='industry-select'>
             <div className={style.catalogSelect} onClick={openSelect}>
                 <div>{currentCatalog ? currentCatalog.title : 'Выберете отрасль'}</div>
                 <img

@@ -1,35 +1,24 @@
 import style from './Vacancies.module.scss';
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import {VacanciesItem} from './VacanciesItem';
-import {useSelector} from 'react-redux';
-import {RootState, useAppDispatch} from '../../store/store';
-import {VacanciesDataResponseType, VacancyRequestType, VacancyResponseType} from '../../api/apiTypes';
-import {getVacanciesThunk} from '../../store/reducers/vacanciesReducer';
+import {VacancyResponseType} from '../../api/apiTypes';
 
-export const Vacancies: React.FC = () => {
-    const dispatch = useAppDispatch();
-    const vacancies = useSelector<RootState, VacancyResponseType[]>(state => state.vacancies.vacancies);
-    const filtersParams = useSelector<RootState, VacancyRequestType>(state => state.vacancies.params);
-    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
-    const getVacancies = useCallback(() => isAuth && dispatch(getVacanciesThunk(filtersParams)), [dispatch, isAuth, vacancies])
-    useEffect(() => {
-        getVacancies();
-    }, [])
-
+export const Vacancies: React.FC<VacanciesProps> = ({vacancies}) => {
     return (
         <div className={style.vacancies}>
             {
                 vacancies.map(
-                    (item, index) =>
+                    item =>
                         <VacanciesItem
-                            key={index}
-                            profession={item.profession}
-                            currency={item.currency}
-                            workType={item.type_of_work.title}
-                            town={item.town.title}
+                            key={item.id}
+                            item={item}
                         />
                 )
             }
         </div>
     )
+}
+
+interface VacanciesProps {
+    vacancies: VacancyResponseType[]
 }

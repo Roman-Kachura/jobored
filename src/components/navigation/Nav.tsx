@@ -11,13 +11,21 @@ export const Nav: React.FC = () => {
     )
 }
 
+export const MobileNav:React.FC = () => {
+    return (
+        <nav className={style.mobileNav}>
+            {navigationLinks.map((l, i) => <LinkItem key={i} text={l.text} href={l.href}/>)}
+        </nav>
+    )
+}
+
 export const LinkItem: React.FC<LinkItemProps> = ({text, href}) => {
     return (
         <NavLink
             className={({isActive, isPending}) =>
                 isActive ? `${style.linkItem} ${style.active}` : `${style.linkItem}`
             }
-            to={href}>{text}</NavLink>
+            to={href} end>{text}</NavLink>
     )
 }
 

@@ -3,7 +3,7 @@ import React, {ChangeEvent} from 'react';
 import arrowUpImage from '../../../images/arrow-up.svg';
 import arrowDownImage from '../../../images/arrow-down.svg';
 
-export const SalaryInput: React.FC<SalaryInputProps> = ({value, callBack, placeholder, step}) => {
+export const SalaryInput: React.FC<SalaryInputProps> = ({value, callBack, placeholder, step, dataElement}) => {
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => callBack(+e.currentTarget.value);
     const increaseValue = () => callBack(value + step);
     const decreaseValue = () => callBack(value - step);
@@ -15,6 +15,7 @@ export const SalaryInput: React.FC<SalaryInputProps> = ({value, callBack, placeh
                 value={value !== 0 ? value : ''}
                 onChange={changeHandler}
                 type="number"
+                data-elem={dataElement}
             />
             <div className={style.buttons}>
                 <button className={style.salaryBtn} onClick={increaseValue}>
@@ -45,4 +46,5 @@ interface SalaryInputProps {
     callBack: (value: number) => void
     placeholder: string
     step: number
+    dataElement: string
 }

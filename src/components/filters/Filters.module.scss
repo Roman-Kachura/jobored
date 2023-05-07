@@ -2,18 +2,19 @@
 @import '../../styles/Mixins.module';
 
 .filters {
-  @include flex-start-start(column,2rem,nowrap);
+  @include flex-start-start(column, 2rem, nowrap);
   background: $primary-white;
   border: $primary-border;
   border-radius: $primary-border-radius;
   padding: 1.125rem;
+  width: 26.25rem;
 
   .filtersTop {
     width: 100%;
-    @include flex-sb-center(row,4.1875rem,nowrap);
+    @include flex-sb-center(row, 4.1875rem, nowrap);
 
     .clearFilters {
-      @include flex-start-center(row,.5rem,nowrap);
+      @include flex-start-center(row, .5rem, nowrap);
       font-size: $second-font-size;
       color: $second-gray;
 
@@ -26,7 +27,7 @@
 
   .filtersOptions {
     width: 100%;
-    @include flex-start-start(column,1.125rem,nowrap);
+    @include flex-start-start(column, 1.125rem, nowrap);
 
     .applyBtn {
       width: 100%;
@@ -51,10 +52,10 @@
 
 .optionItem {
   width: 100%;
-  @include flex-start-start(column,.5rem,nowrap);
+  @include flex-start-start(column, .5rem, nowrap);
 
   .itemChildren {
-    @include flex-start-start(column,1.125rem,nowrap);
+    @include flex-start-start(column, 1.125rem, nowrap);
     width: 100%;
   }
 }
@@ -82,6 +83,7 @@
   }
 
   .cataloguesChildren {
+    width: 100%;
     height: 0;
     opacity: 0;
     z-index: -10000;
@@ -120,6 +122,35 @@
       height: 300px;
       opacity: 1;
       z-index: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 981px) {
+  .filters {
+    width: 100%;
+  }
+
+  .catalog {
+    &.open {
+      .cataloguesChildren {
+        height: 150px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 681px) {
+  .filters {
+    width: 100%;
+
+    .filtersTop {
+      @include flex-start-start(column, 1rem, nowrap);
+
+      .clearFilters {
+        @include flex-start-start(row, .5rem, nowrap);
+        padding: 0;
+      }
     }
   }
 }

@@ -1,59 +1,26 @@
-import style from './Filters.module.scss';
-import React, {useCallback, useEffect, useState} from 'react';
-import {OptionItem} from './OptionItem';
-import {CatalogSelect} from './CatalogSelect';
-import {SalaryInput} from '../features/inputs/SalaryInput';
-import {Button} from '../features/buttons/Button';
-import {RootState, useAppDispatch} from '../../store/store';
-import {
-    clearParamsThunk,
-    getCataloguesThunk,
-    getVacanciesThunk,
-    showVacanciesCountOnPage
-} from '../../store/reducers/vacanciesReducer';
-import {useSelector} from 'react-redux';
-import {VacancyRequestType} from '../../api/apiTypes';
+import React, {useCallback, useState} from 'react';
 import {FiltersComponent} from './FiltersComponent';
+import {VacancyRequestType} from '../../api/apiTypes';
 
-export const Filters = React.memo(() => {
-    const dispatch = useAppDispatch();
-    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
-    const filtersParams = useSelector<RootState, VacancyRequestType>(state => state.vacancies.params);
+
+const FilterContainer: React.FC<FilterComponent> = ({filtersParams, applyFiltersCallBack, clearFiltersCallback}) => {
     const [catalog, setCatalog] = useState(filtersParams.catalogues);
     const [salaryFrom, setSalaryFrom] = useState(filtersParams.payment_from);
     const [salaryTo, setSalaryTo] = useState(filtersParams.payment_to);
-    const currentPage = useSelector<RootState, number>(state => state.vacancies.params.page);
 
     const changeCatalog = (value: number) => {
         setCatalog(value)
     };
     const changeSalaryFrom = useCallback((value: number) => value >= 0 && setSalaryFrom(value), [salaryFrom]);
     const changeSalaryTo = useCallback((value: number) => value >= 0 && setSalaryTo(value), [salaryTo]);
-    const applyFilters = useCallback(() => {
-        const param: VacancyRequestType = {
-            ...filtersParams,
-            catalogues: catalog,
-            payment_from: salaryFrom,
-            payment_to: salaryTo,
-            page: 1,
-        }
-        getVacancies(param);
-    }, [dispatch, catalog, salaryFrom, salaryTo]);
-    const getVacancies = useCallback((param: VacancyRequestType) => dispatch(getVacanciesThunk(param)), [dispatch, catalog, salaryFrom, salaryTo]);
-    const getCatalogues = useCallback(() => isAuth && dispatch(getCataloguesThunk()), [dispatch, isAuth]);
-    const clearFilters = useCallback(() => {
+    const applyFilters = () => applyFiltersCallBack({catalog, salaryFrom, salaryTo});
+    const clearFilters = () => {
         setCatalog(0);
         setSalaryFrom(0);
         setSalaryTo(0);
-        dispatch(clearParamsThunk());
-    }, [dispatch]);
+        clearFiltersCallback();
+    }
 
-    useEffect(() => {
-        getCatalogues();
-        return () => {
-            clearFilters();
-        }
-    }, [dispatch]);
     return (
         <FiltersComponent
             catalog={catalog}
@@ -66,4 +33,12 @@ export const Filters = React.memo(() => {
             clearFilters={clearFilters}
         />
     )
-})
+};
+
+export const Filters = React.memo(FilterContainer);
+
+interface FilterComponent {
+    filtersParams: VacancyRequestType
+    applyFiltersCallBack: (data: { catalog: number, salaryFrom: number, salaryTo: number }) => void
+    clearFiltersCallback: () => void
+}

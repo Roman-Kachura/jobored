@@ -27,6 +27,15 @@
   gap: $gap;
 }
 
+@mixin flex-end-center($direction,$gap,$wrap) {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
 @mixin flex-sb-center($direction,$gap,$wrap) {
   display: flex;
   justify-content: space-between;
