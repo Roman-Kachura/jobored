@@ -16,7 +16,6 @@ import {VacancyRequestType, VacancyResponseType} from '../../api/apiTypes';
 
 export const VacanciesContainer = React.memo(() => {
     const dispatch = useAppDispatch();
-    const isAuth = useSelector<RootState, boolean>(state => state.app.isAuth);
     const appLoad = useSelector<RootState, boolean>(state => state.app.load);
     const filtersParams = useSelector<RootState, VacancyRequestType>(state => state.vacancies.params);
     const vacancies = useSelector<RootState, VacancyResponseType[]>(state => state.vacancies.vacancies);
@@ -29,6 +28,7 @@ export const VacanciesContainer = React.memo(() => {
     }, [dispatch]);
     const getCatalogues = useCallback(() => dispatch(getCataloguesThunk()), [dispatch]);
     const getVacancies = useCallback((param?: VacancyRequestType) => {
+        console.log(param)
         !param
             ? dispatch(getVacanciesThunk(filtersParams))
             : dispatch(getVacanciesThunk(param));
@@ -43,7 +43,10 @@ export const VacanciesContainer = React.memo(() => {
         }
         getVacancies(param);
     }, [filtersParams, getVacancies]);
-    const changeVacanciesPage = useCallback((page: number) => getVacancies({...filtersParams, page}), [page]);
+    const changeVacanciesPage = useCallback((page: number) => getVacancies({
+        ...filtersParams,
+        page
+    }), [page, filtersParams]);
     const searchVacancies = useCallback((keyword: string) => getVacancies({...filtersParams, keyword, page: 1}), []);
 
     useEffect(() => {
