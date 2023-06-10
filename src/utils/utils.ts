@@ -1,34 +1,37 @@
 export const getPages = (pagesCount: number, currentPage: number) => {
     const pages: number[] = [];
     const showPagesMaxCount = 5;
-    if (pagesCount !== 1 && pagesCount <= showPagesMaxCount) {
-        for (let i = 1; i < pagesCount + 1; i++) {
+    if (pagesCount <= showPagesMaxCount) {
+        for (let i = 1; i <= showPagesMaxCount; i++) {
             pages.push(i);
         }
+        return pages;
     }
     if (pagesCount > showPagesMaxCount) {
-        if (currentPage > pagesCount - showPagesMaxCount) {
+        if (currentPage > 2 && currentPage < pagesCount - 1) {
             pages.push(1);
-            for (let i = pagesCount - (showPagesMaxCount - 2); i < pagesCount + 1; i++) {
-                pages.push(i);
-            }
+            pages.push(currentPage - 1);
+            pages.push(currentPage);
+            pages.push(currentPage + 1);
+            pages.push(pagesCount);
+            return pages;
         }
-
-        if (currentPage >= 1 && currentPage <= showPagesMaxCount) {
+        if (currentPage < showPagesMaxCount) {
             for (let i = 1; i < showPagesMaxCount; i++) {
                 pages.push(i);
             }
             pages.push(pagesCount);
+            return pages;
         }
-
-        if (currentPage > showPagesMaxCount && currentPage <= pagesCount - showPagesMaxCount) {
+        if (currentPage >= pagesCount - 1) {
             pages.push(1);
-            for (let i = currentPage - 1; i < currentPage + 1; i++) {
-                pages.push(i);
-            }
+            pages.push(pagesCount - 3);
+            pages.push(pagesCount - 2);
+            pages.push(pagesCount - 1);
             pages.push(pagesCount);
         }
     }
+    console.log(pages)
     return pages;
 }
 

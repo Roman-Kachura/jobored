@@ -7,9 +7,7 @@
 
 .paginationButton {
   @include flex-center-center('row', '0', 'nowrap');
-  padding: .5rem;
-  //width: 2rem;
-  //height: 2rem;
+  padding: .5rem .7rem;
   border: $primary-border;
   border-radius: $second-border-radius;
   background: $primary-white;
